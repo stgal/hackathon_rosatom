@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/user', async (req, res, next) => {
   let res_query = await User.getById(1)
-  res.render('index', { title: JSON.stringify(res_query) });
+  res.send(res_query);
 })
 
 
