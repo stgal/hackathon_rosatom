@@ -38,4 +38,10 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+console.log('START')
+
+
+require('./models/MySQLConnect')()
+// Connetction()
+
 module.exports = app;
