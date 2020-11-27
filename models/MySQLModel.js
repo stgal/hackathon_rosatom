@@ -1,5 +1,10 @@
+let Connection = require('./MySQLConnect')
+
 class MySQLModel {
-    static query() {
-        require('MySQLConnect')(SQL_query)
+    static async query (SQL_query) {
+        let result = await Connection(SQL_query)
+        return result
     }
 }
+
+module.exports = MySQLModel;

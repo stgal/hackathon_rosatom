@@ -40,8 +40,6 @@ app.use(function(err, req, res, next) {
 
 console.log('START')
 
-
-require('./models/MySQLConnect')()
-// Connetction()
+// require('./models/MySQLModel')()
 
 module.exports = app;
