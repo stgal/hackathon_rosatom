@@ -15,18 +15,10 @@ router.get('/profile', async (req, res, next) => {
 })
 
 router.get('/orders', async (req, res, next) => {
-    res.send([{
-        id: 1,
-        creatorId: Math.floor(Math.random() * Math.floor(40)),
-        performer: 'All',
-        createData: moment().unix(),
-        deadlineData: moment().unix() + 86400,
-        titleText: 'Разгрузить',
-        priority: 'MEDIUM',
-        orderType: 'TECHNOLOGICAL',
-        orderStatus: 'New',
-        bodyText: 'Необходимо разгрузить грузчиков'
-    }])
+
+    let orders = require('../mock_data')()
+
+    res.send(orders)
 })
 
 router.get('/summary', async (req, res, next) => {
