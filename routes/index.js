@@ -37,6 +37,8 @@ router.get('/summary', async (req, res, next) => {
 })
 
 router.post('/audio-command', async (req, res, next) => {
+    res.send({text: 'Провести техническое обсулживание ППТК-20'})
+    return
     let fs = require('fs');
 
     let file_name = moment().unix()
@@ -49,7 +51,7 @@ router.post('/audio-command', async (req, res, next) => {
     send_file_to_parsing()
     let string_parse = await get_parse_string(file_name, ext_for_parse)
 
-    res.send({text: 'Провести техническое обсулживание ППТК-20'})
+    res.send({text: string_parse})
 })
 
 let save_audio_file = (file_name, ext_orig) => {
