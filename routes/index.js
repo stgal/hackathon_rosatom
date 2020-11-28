@@ -16,6 +16,16 @@ router.get('/profile', async (req, res, next) => {
 })
 
 router.post('/audio-command', async (req, res, next) => {
+
+    let fs = require('fs');
+
+    if (req.headers['content-type'] === 'audio/*') {
+        fs.writeFile('./audio/input_test/' + moment().unix() + '.mp4', req.body, function (err) {
+            if (err) throw err;
+            console.log('Saved!');
+        });
+    }
+
     res.send({text: 'Провести техническое обсулживание ППТК-20'})
 })
 
@@ -35,6 +45,8 @@ router.get('/orders', async (req, res, next) => {
 })
 
 router.get('/summary', async (req, res, next) => {
+
+
     res.send({
         text: 'Какой то очень важный текст, не помню что здесь должно быть бла-бла-бла'
     })
