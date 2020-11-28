@@ -6,7 +6,7 @@ const moment = require('moment')
 const User = require('../models/Classess/User')
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'САМОЕ ЛУЧШЕ ПРИЛОЖЕНИЕ' });
+    res.render('index', { title: 'САМОЕ ЛУЧШЕ ПРИЛОЖЕНИЕ' });
 });
 
 router.get('/profile', async (req, res, next) => {

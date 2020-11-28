@@ -4,7 +4,7 @@ const order = () => {
     var orders = []
 
     let titleText = ['Разгрузить', 'Проверить', 'Обслужить', 'Починить']
-    let priority = ['MEDIYUM', 'LOW', 'HIGHT', 'CRITICAL']
+    let priority = ['MEDIUM', 'LOW', 'HIGHT', 'CRITICAL']
 
     for (let i = 1; i < 80; i++) {
         orders.push({
