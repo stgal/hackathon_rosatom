@@ -4,10 +4,14 @@ const order = () => {
     var orders = []
 
     let titleText = [
-        'Разгрузить',
-        'Проверить',
-        'Обслужить',
-        'Починить'
+        'Замена гранитных напольных плит',
+        'Сломана рамка лючка',
+        'Cледы протечки',
+        'Искрит розетка',
+        'Поправить уплотнитель',
+        'Плитка шатается',
+        'Грязно! приберитесь!',
+        'Сломался насос'
     ]
 
     let priority = [
@@ -28,18 +32,22 @@ const order = () => {
         'Ответственный- ЭНЕРГОСЕРВИС К Неисправность: выход из строя частотного регулятора и статора насоса ОТ-08М2 котельной 104.2 из-за разгерметизации рубашки статора и протечки воды через клеммную колодку. Создал: Кондратьев В.',
     ]
 
-    for (let i = 1; i < 80; i++) {
+
+    for (let i = 1; i < 16; i++) {
+
+        let title_number = Math.floor(Math.random() * Math.floor(8))
+
         orders.push({
             id: i,
             creatorId: Math.floor(Math.random() * Math.floor(10)),
             performer: 'All',
             createdData: moment().unix(),
             deadlineData: moment().unix() + 9999,
-            titleText: titleText[Math.floor(Math.random() * Math.floor(4))],
+            titleText: titleText[title_number],
             priority: priority[Math.floor(Math.random() * Math.floor(4))],
             orderType: 'TECHNOLOGICAL',
             orderStatus: 'New',
-            bodyText: bodyText[Math.floor(Math.random() * Math.floor(8))],
+            bodyText: bodyText[title_number],
         })
     }
 
