@@ -10,30 +10,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/profile', async (req, res, next) => {
-    let id = req.query.id
-    res.send({id: req.query.hasOwnProperty('id') ? id : 1, name: 'Олег', position: 'Сварщик'})
-})
-
-
-// addOrder
-// modifyOrder
-// getSummary (отчёт)
-// getSensors
-
-router.get('/orders', async (req, res, next) => {
-    let orders = require('../mock_data')()
-    res.send(orders)
-})
-
-router.post('/addOrder', async (req, res, next) => {
-    var result = await require('../models/MySQLModel').query('User', 'getById', req.body)
+    let result = await require('../models/MySQLModel').query('User', 'getById', {id: req.query.id})
     res.send(result)
-})
-
-router.get('/summary', async (req, res, next) => {
-    res.send({
-        text: 'Какой то очень важный текст, не помню что здесь должно быть бла-бла-бла'
-    })
 })
 
 router.post('/audio-command', async (req, res, next) => {
@@ -53,6 +31,32 @@ router.post('/audio-command', async (req, res, next) => {
 
     res.send({text: string_parse})
 })
+
+router.post('/addOrder', async (req, res, next) => {
+
+    var result = await require('../models/MySQLModel').query('Order', 'add', {
+        user_id: 1,
+        ...req.body
+    })
+    res.send(result)
+})
+
+// addOrder
+// modifyOrder
+// getSummary (отчёт)
+// getSensors
+
+router.get('/orders', async (req, res, next) => {
+    let orders = require('../mock_data')()
+    res.send(orders)
+})
+
+router.get('/summary', async (req, res, next) => {
+    res.send({
+        text: 'Какой то очень важный текст, не помню что здесь должно быть бла-бла-бла'
+    })
+})
+
 
 let save_audio_file = (req, file_name, ext_orig) => {
     return new Promise((err, res) => {

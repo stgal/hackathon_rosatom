@@ -32,11 +32,8 @@ const order = () => {
         'Ответственный- ЭНЕРГОСЕРВИС К Неисправность: выход из строя частотного регулятора и статора насоса ОТ-08М2 котельной 104.2 из-за разгерметизации рубашки статора и протечки воды через клеммную колодку. Создал: Кондратьев В.',
     ]
 
-
     for (let i = 1; i < 16; i++) {
-
         let title_number = Math.floor(Math.random() * Math.floor(8))
-
         orders.push({
             id: i,
             creatorId: Math.floor(Math.random() * Math.floor(10)),
@@ -50,7 +47,6 @@ const order = () => {
             bodyText: bodyText[title_number],
         })
     }
-
     return orders
 }
 
