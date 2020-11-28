@@ -14,15 +14,23 @@ router.get('/profile', async (req, res, next) => {
     res.send({id: req.query.hasOwnProperty('id') ? id : 1, name: 'Олег', position: 'Сварщик'})
 })
 
+
+// addOrder
+// modifyOrder
+// getSummary (отчёт)
+// getSensors
+
 router.get('/orders', async (req, res, next) => {
-
     let orders = require('../mock_data')()
-
     res.send(orders)
 })
 
-router.get('/summary', async (req, res, next) => {
+router.post('/addOrder', async (req, res, next) => {
+    var result = await require('../models/MySQLModel').query('User', 'getById', req.body)
+    res.send(result)
+})
 
+router.get('/summary', async (req, res, next) => {
     res.send({
         text: 'Какой то очень важный текст, не помню что здесь должно быть бла-бла-бла'
     })
@@ -37,7 +45,7 @@ router.post('/audio-command', async (req, res, next) => {
     let ext_orig = '.mp4'
     let ext_for_parse = '.wav'
 
-    await save_audio_file(file_name);
+    await save_audio_file(req, file_name);
     await convert_audio_and_save(file_name, ext_orig, ext_for_parse)
 
     send_file_to_parsing()
@@ -46,7 +54,7 @@ router.post('/audio-command', async (req, res, next) => {
     res.send({text: string_parse})
 })
 
-let save_audio_file = (file_name, ext_orig) => {
+let save_audio_file = (req, file_name, ext_orig) => {
     return new Promise((err, res) => {
         if (req.headers['content-type'] === 'audio/wav') {
             fs.writeFile('./audio/input/' + file_name + ext_orig, req.body, function (err) {
@@ -123,6 +131,5 @@ let get_parse_string = (file_name, ext_for_parse) => {
         }, 1000);
     })
 }
-
 
 module.exports = router;
