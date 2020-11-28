@@ -9,35 +9,9 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'САМОЕ ЛУЧШЕ ПРИЛОЖЕНИЕ' });
 });
 
-
 router.get('/profile', async (req, res, next) => {
     let id = req.query.id
     res.send({id: req.query.hasOwnProperty('id') ? id : 1, name: 'Олег', position: 'Сварщик'})
-})
-
-router.post('/audio-command', async (req, res, next) => {
-
-    let fs = require('fs');
-
-    // console.log(req.query)
-
-    console.log("RECIEVED AUDIO TO EXTRACT INDICATORS: ", req.body);
-
-    if (req.headers['content-type'] === 'audio/wav') {
-        fs.writeFile('./audio/input_test/' + moment().unix() + '.mp4', req.body, function (err) {
-            if (err) throw err;
-            console.log('Saved!');
-        });
-    }
-
-    // if (req.headers['content-type'] === 'audio/*') {
-    //     fs.writeFile('./audio/input_test/' + moment().unix() + '.mp4', JSON.stringify(req.body), function (err) {
-    //         if (err) throw err;
-    //         console.log('Saved!');
-    //     });
-    // }
-
-    res.send({text: 'Провести техническое обсулживание ППТК-20'})
 })
 
 router.get('/orders', async (req, res, next) => {
@@ -57,18 +31,33 @@ router.get('/orders', async (req, res, next) => {
 
 router.get('/summary', async (req, res, next) => {
 
-
     res.send({
         text: 'Какой то очень важный текст, не помню что здесь должно быть бла-бла-бла'
     })
 })
 
+router.post('/audio-command', async (req, res, next) => {
+    let fs = require('fs');
+
+    console.log("RECIEVED AUDIO TO EXTRACT INDICATORS: ", req.body);
+
+    if (req.headers['content-type'] === 'audio/wav') {
+        fs.writeFile('./audio/input_test/' + moment().unix() + '.mp4', req.body, function (err) {
+            if (err) throw err;
+            console.log('Saved!');
+        });
+    }
+
+    res.send({text: 'Провести техническое обсулживание ППТК-20'})
+})
+
+
 //convert
-router.get('/lil', (req, res, next) => {
+router.get('/convert', (req, res, next) => {
     const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
     const ffmpeg = require('fluent-ffmpeg');
     ffmpeg.setFfmpegPath(ffmpegPath);
-    let track = './audio/input/test_vk.mp4';
+    let track = './audio/input/test.mp4';
 
     ffmpeg(track)
         .toFormat('wav')
@@ -81,7 +70,7 @@ router.get('/lil', (req, res, next) => {
         .on('end', () => {
             console.log('Processing finished !');
         })
-        .save('./audio/output/test_vk_mp3_mp4.wav');
+        .save('./audio/output/test.wav');
 })
 
 router.get('/send', (req, res, next) => {
@@ -89,7 +78,7 @@ router.get('/send', (req, res, next) => {
     var fs = require('fs');
 
     var form = new FormData();
-    form.append('file', fs.createReadStream('./audio/output/test_vk_mp3_mp4.wav'));
+    form.append('file', fs.createReadStream('./audio/output/test.wav'));
 
     form.submit('https://rca-audio.herokuapp.com/audio-command', function(err, res) {
         console.log(err, res)
