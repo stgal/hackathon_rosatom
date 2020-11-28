@@ -19,12 +19,23 @@ router.post('/audio-command', async (req, res, next) => {
 
     let fs = require('fs');
 
-    if (req.headers['content-type'] === 'audio/*') {
+    // console.log(req.query)
+
+    console.log("RECIEVED AUDIO TO EXTRACT INDICATORS: ", req.body);
+
+    if (req.headers['content-type'] === 'audio/wav') {
         fs.writeFile('./audio/input_test/' + moment().unix() + '.mp4', req.body, function (err) {
             if (err) throw err;
             console.log('Saved!');
         });
     }
+
+    // if (req.headers['content-type'] === 'audio/*') {
+    //     fs.writeFile('./audio/input_test/' + moment().unix() + '.mp4', JSON.stringify(req.body), function (err) {
+    //         if (err) throw err;
+    //         console.log('Saved!');
+    //     });
+    // }
 
     res.send({text: 'Провести техническое обсулживание ППТК-20'})
 })
