@@ -6,7 +6,7 @@ const moment = require('moment')
 const User = require('../models/Classess/User')
 
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'САМОЕ ЛУЧШЕ ПРИЛОЖЕНИЕ' });
+    res.send('^-^')
 });
 
 router.get('/profile', async (req, res, next) => {
@@ -46,7 +46,6 @@ router.post('/addOrder', async (req, res, next) => {
 })
 
 // getSummary (отчёт)
-// getSensors
 
 router.get('/sensors', async (req, res, next) => {
     //api стороннего сервиса, которое возвращает информацию по сенсорам
