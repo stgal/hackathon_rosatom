@@ -19,9 +19,9 @@
     
     
 >прим конфига:
->{
->  "mysql": {
->    "connectionLimit" : 50,
+-{
+-  "mysql": {
+-    "connectionLimit" : 50,
 >    "connectTimeout"  : 60000,
 >    "acquireTimeout"  : 60000,
 >    "host"     : "192.168.1.50", //хост сервера БД
