@@ -34,10 +34,6 @@ router.post('/audio-command', async (req, res, next) => {
 
 router.post('/addOrder', async (req, res, next) => {
 
-    //require field ....
-    //deadlineData bodyText titleText user_id (orderTypeId || orderType) (orderClassId || orderClass)
-
-
     var result = await require('../models/MySQLModel').query('Order', 'add', {
         user_id: 1,
         ...req.body
@@ -45,13 +41,17 @@ router.post('/addOrder', async (req, res, next) => {
     res.send(result)
 })
 
-// addOrder
-// modifyOrder
 // getSummary (отчёт)
 // getSensors
 
+router.get('/sensors', async (req, res, next) => {
+    //api стороннего сервиса, которое возвращает информацию по сенсорам
+    let sensors = require('../mock_data').sensors()
+    res.send(sensors)
+})
+
 router.get('/orders', async (req, res, next) => {
-    let orders = require('../mock_data')()
+    let orders = require('../mock_data').order()
     res.send(orders)
 })
 

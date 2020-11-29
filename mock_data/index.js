@@ -50,5 +50,27 @@ const order = () => {
     return orders
 }
 
+const sensors = () => {
+    let sensors_data = []
 
-module.exports = order
+    let type = [
+        'THERMOMETER',
+        'BAROMETER',
+        'CO2_METER',
+    ]
+
+    for (let i = 0; i < 15; i++) {
+        sensors_data.push({
+            value: parseFloat((Math.random() * Math.floor(100)).toFixed(2)),
+            thresholdMin: 0,
+            thresholdMax: 100,
+            type: type[Math.floor(Math.random() * Math.floor(3))]
+        })
+    }
+    return sensors_data
+}
+
+module.exports = {
+    order,
+    sensors
+}
