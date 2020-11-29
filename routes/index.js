@@ -34,6 +34,10 @@ router.post('/audio-command', async (req, res, next) => {
 
 router.post('/addOrder', async (req, res, next) => {
 
+    //require field ....
+    //deadlineData bodyText titleText user_id (orderTypeId || orderType) (orderClassId || orderClass)
+
+
     var result = await require('../models/MySQLModel').query('Order', 'add', {
         user_id: 1,
         ...req.body
