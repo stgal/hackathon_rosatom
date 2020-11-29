@@ -96,18 +96,44 @@ class Order {
     }
 
     static async getAll(params, query) {
-        let a = {
-            id: 1, //OK
-            creatorId: Math.floor(Math.random() * Math.floor(10)), //OK
-            performer: 'All', //TODO
-            createdData: moment().unix(), //OK
-            deadlineData: moment().unix() + 9999, //OK
-            titleText: titleText[title_number], //OK
-            priority: priority[Math.floor(Math.random() * Math.floor(4))], //TODO
-            orderType: 'TECHNOLOGICAL', //TODO
-            orderStatus: 'New', //TODO
-            bodyText: bodyText[title_number],
-        }
+
+        let query_select_order = 'SELECT * FROM `Order`'
+
+        let result_select_order = await new Promise((resolve, reject) => {
+            query(query_select_order, function(query_err, query_rows, fields) {
+                if (query_err) return reject(query_err);
+                resolve(query_rows)
+            });
+        })
+
+        //НЕОБХОДИМО ДОГРУЗИТЬ ЗНАЧЕНИЯ ЗАВИСЫМЫХ ПОЛЕЙ
+        let orders = []
+        let promises_arr = []
+
+        result_select_order.forEach(order => {
+            promises_arr.push(
+                new Promise(async (resolve, reject) => {
+
+                    let performer = await MySQLModel.query('Group_executors', 'getById', {id: order.group_executors_id})
+                    let priority = await MySQLModel.query('Priority_order', 'getById', {id: order.priority_id})
+                    let orderType = await MySQLModel.query('Type_order', 'getById', {id: order.type_order_id})
+                    let orderStatus = await MySQLModel.query('Status_order', 'getById', {id: order.status_order_id})
+
+                    orders.push({
+                        ...order,
+                        performer: performer.sysname,
+                        priority: priority.sysname,
+                        orderType: orderType.sysname,
+                        orderStatus: orderStatus.sysname
+                    })
+
+                    resolve(null)
+                })
+            )
+        })
+        await Promise.all(promises_arr)
+
+        return orders
     }
 }
 

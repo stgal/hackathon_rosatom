@@ -55,8 +55,9 @@ router.get('/sensors', async (req, res, next) => {
 })
 
 router.get('/orders', async (req, res, next) => {
-    let orders = require('../mock_data').order()
-    res.send(orders)
+    let result = await require('../models/MySQLModel').query('Order', 'getAll')
+    // let orders = require('../mock_data').order()
+    res.send(result)
 })
 
 router.get('/summary', async (req, res, next) => {
