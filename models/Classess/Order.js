@@ -58,9 +58,13 @@ class Order {
             }
 
 
-            let request_insert_into_order = 'INSERT INTO `Order` (end_data_plan, created_data, comment, title, group_executors_id, priority_id, created_user_id,class_order_id,type_order_id'
+            //ПОЛУЧАЕМ id первичного статуса NEW
+            let status_new = await MySQLModel.query('Status_order', 'getBySysname', {sysname: 'NEW'})
+
+
+            let request_insert_into_order = 'INSERT INTO `Order` (end_data_plan, created_data, comment, title, group_executors_id, priority_id, created_user_id,class_order_id,type_order_id,status_order_id'
                 + ' ) VALUES (' +
-                `'${query_params['end_data_plan']}', '${query_params['created_data']}', '${query_params['comment']}', '${query_params['title']}', '${query_params['group_executors_id']}', '${query_params['priority_id']}', '${query_params['created_user_id']}', '${query_params['class_order_id']}', '${query_params['type_order_id']}')`
+                `'${query_params['end_data_plan']}', '${query_params['created_data']}', '${query_params['comment']}', '${query_params['title']}', '${query_params['group_executors_id']}', '${query_params['priority_id']}', '${query_params['created_user_id']}', '${query_params['class_order_id']}', '${query_params['type_order_id']}', '${status_new[0].id}')`
 
 
             let result_insert_into_order = await new Promise((resolve, reject) => {
@@ -89,6 +93,21 @@ class Order {
 
             prom_result(result_insert_into_order)
         })
+    }
+
+    static async getAll(params, query) {
+        let a = {
+            id: 1, //OK
+            creatorId: Math.floor(Math.random() * Math.floor(10)), //OK
+            performer: 'All', //TODO
+            createdData: moment().unix(), //OK
+            deadlineData: moment().unix() + 9999, //OK
+            titleText: titleText[title_number], //OK
+            priority: priority[Math.floor(Math.random() * Math.floor(4))], //TODO
+            orderType: 'TECHNOLOGICAL', //TODO
+            orderStatus: 'New', //TODO
+            bodyText: bodyText[title_number],
+        }
     }
 }
 

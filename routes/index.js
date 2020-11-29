@@ -10,7 +10,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/profile', async (req, res, next) => {
-    let result = await require('../models/MySQLModel').query('User', 'getById', {id: req.query.id})
+    let result
+    if (req.query.hasOwnProperty('id')) {
+        result = await require('../models/MySQLModel').query('User', 'getById', {id: req.query.id})
+    } else {
+        result = await require('../models/MySQLModel').query('User', 'getAll')
+    }
     res.send(result)
 })
 
@@ -33,7 +38,6 @@ router.post('/audio-command', async (req, res, next) => {
 })
 
 router.post('/addOrder', async (req, res, next) => {
-
     var result = await require('../models/MySQLModel').query('Order', 'add', {
         user_id: 1,
         ...req.body
